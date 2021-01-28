@@ -1,8 +1,8 @@
 # Automatic Fetal Brain Quality Assessment
-## Developed by Iván Legorreta
-### Contact info: ilegorreta@outlook.com
 
----
+Iván Legorreta <ilegorreta@outlook.com>
+
+## Abstract
 
 The aim of this project was to develop a Quality Assessment tool for fetal brain MRIs, which is able to score each volume through a deep learning regression model. Developed using Python3 and Keras/Tensorflow framework.
 
@@ -11,25 +11,18 @@ Our network architecture consists of a non-linear configuration, known as Residu
 
 Given that we are dealing with an unbalanced distribution regarding input dataset, we applied different weights to each input class to compensate for the imbalance in the training sample.
 
----
-### Requirements
-* Linux environment
-* Python3
-* Conda/Anaconda setup
+## Development
 
-### Installation
-1. Create the environment from the conda_environment.yml file:
-```python
-  conda env create -f conda_environment.yml
+```bash
+DOCKER_BUILDKIT=1 docker build -t fnndsc/pl-fetal-quality-assessment .
 ```
-The first line of the yml file sets the new environment's name.
 
-2.  Activate the new environment: conda activate myenv
+<details>
+<summary>What's BuildKit?</summary>
+Our <code>Dockerfile</code> leverages advanced features of Docker.
 
-3. Verify that the new environment was installed correctly:
-```python
-  conda env list
-```
-You can also use conda info --envs
-
-For more information, visit [Conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
+<ul>
+<li>https://github.com/moby/moby/issues/15717#issuecomment-493854811</li>
+<li>https://docs.docker.com/engine/reference/builder/#buildkit</li>
+</ul>
+</details>
