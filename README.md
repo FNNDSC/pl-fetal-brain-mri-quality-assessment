@@ -1,4 +1,7 @@
-# Automatic Fetal Brain Quality Assessment
+# Automatic Fetal Brain MRI Quality Assessment
+
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/fnndsc/pl-fetal-brain-quality-assessment)
+[![MIT License](https://img.shields.io/github/license/FNNDSC/pl-fetal-brain-quality-assessment)](https://github.com/FNNDSC/pl-fetal-brain-quality-assessment/blob/main/LICENSE)
 
 Score a NIFTI (`.nii`, `.nii.gz`) file on a scale from 0 to 1 based on quality using machine learning.
 
@@ -47,6 +50,12 @@ Our <code>Dockerfile</code> leverages advanced features of Docker.
 </details>
 
 ## Usage
+
+`pl-fetal-brain-quality-assessment` is a [ChRIS](https://chrisproject.org/) plugin.
+
+![chrisstore.co](docs/chrisstore-badge.png)
+
+### Using Docker Run
 
 ```bash
 $ ls input
