@@ -1,6 +1,6 @@
 #!/usr/bin/env python                                            
 #
-# fetal_brain_quality_assessment ds ChRIS plugin app
+# fetal_brain_assessment ds ChRIS plugin app
 #
 # (c) 2021 Fetal-Neonatal Neuroimaging & Developmental Science Center
 #                   Boston Children's Hospital
@@ -16,7 +16,7 @@ import logging
 from os import path
 from glob import glob
 import tensorflow as tf
-from fetal_brain_quality_assessment.predict_resnet import Predictor
+from fetal_brain_assessment.predict_resnet import Predictor
 
 Gstr_title = """
  _____             _ _ _            ___                                             _   
@@ -41,7 +41,7 @@ logger = colorlog.getLogger()
 logger.addHandler(handler)
 
 
-class Fetal_brain_quality_assessment(ChrisApp):
+class Fetal_brain_assessment(ChrisApp):
     """
     The aim of this project was to develop a Quality Assessment tool for fetal brain MRIs,
     which is able to score each volume through a deep learning regression model.

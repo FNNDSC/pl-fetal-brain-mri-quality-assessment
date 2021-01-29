@@ -26,10 +26,13 @@ RUN conda env update -n base -f conda_environment.yml
 # list of options at
 # https://fnndsc.childrens.harvard.edu/mri_pipeline/ivan/quality_assessment/
 ADD https://fnndsc.childrens.harvard.edu/mri_pipeline/ivan/quality_assessment/weights_resnet_sw2_k3.hdf5 \
-    /usr/local/share/fetal_brain_quality_assessment/weights_resnet.hdf5
-RUN ["chmod", "444", "/usr/local/share/fetal_brain_quality_assessment/weights_resnet.hdf5"]
+    /usr/local/share/fetal_brain_assessment/weights_resnet.hdf5
+RUN ["chmod", "444", "/usr/local/share/fetal_brain_assessment/weights_resnet.hdf5"]
+
+COPY requirements.txt .
+RUN ["pip", "install", "-r", "requirements.txt"]
 
 COPY . .
-RUN pip install .
+RUN ["pip", "install", "."]
 
 CMD ["fetal_brain_quality_assessment", "--help"]

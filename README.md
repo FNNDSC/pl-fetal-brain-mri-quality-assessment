@@ -1,7 +1,7 @@
 # Automatic Fetal Brain MRI Quality Assessment
 
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/fnndsc/pl-fetal-brain-quality-assessment)
-[![MIT License](https://img.shields.io/github/license/FNNDSC/pl-fetal-brain-quality-assessment)](https://github.com/FNNDSC/pl-fetal-brain-quality-assessment/blob/main/LICENSE)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/fnndsc/pl-fetal-brain-assessment)
+[![MIT License](https://img.shields.io/github/license/fnndsc/pl-fetal-brain-assessment)](https://github.com/fnndsc/pl-fetal-brain-assessment/blob/main/LICENSE)
 
 Score a NIFTI (`.nii`, `.nii.gz`) file on a scale from 0 to 1 based on quality using machine learning.
 
@@ -36,7 +36,7 @@ https://github.com/ilegorreta/Automatic-Fetal-Brain-Quality-Assessment-Tool
 ## Development
 
 ```bash
-DOCKER_BUILDKIT=1 docker build -t fnndsc/pl-fetal-brain-quality-assessment .
+DOCKER_BUILDKIT=1 docker build -t fnndsc/pl-fetal-brain-assessment .
 ```
 
 <details>
@@ -51,7 +51,7 @@ Our <code>Dockerfile</code> leverages advanced features of Docker.
 
 ## Usage
 
-`pl-fetal-brain-quality-assessment` is a [ChRIS](https://chrisproject.org/) plugin.
+`fetal-brain-assessment` is a [ChRIS](https://chrisproject.org/) plugin.
 
 ![chrisstore.co](docs/chrisstore-badge.png)
 
@@ -77,8 +77,8 @@ $ mkdir output
 
 $ docker run --rm --gpus all -u $(id -u)                         \
     -v $PWD/input:/incoming:ro -v $PWD/output:/outgoing:rw       \
-    fnndsc/pl-fetal-brain-quality-assessment                     \
-    fetal_brain_quality_assessment --verbosity 3                 \
+    fnndsc/pl-fetal-brain-assessment:1.0.0                       \
+    fetal_brain_assessment --verbosity 3                         \
     --inputPathFilter '*_crop.nii' --output-file predictions.csv \
     /incoming /outgoing
 

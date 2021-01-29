@@ -9,13 +9,13 @@ import nibabel as nib
 from keras.losses import mean_squared_error, huber_loss
 from keras.optimizers import Adadelta, SGD, Adam
 
-from fetal_brain_quality_assessment.resnet_architecture import model_architecture as create_model_architecture
+from fetal_brain_assessment.resnet_architecture import model_architecture as create_model_architecture
 
 logger = logging.getLogger(__name__)
 
 
 class Predictor:
-	def __init__(self, weights='/usr/local/share/fetal_brain_quality_assessment/weights_resnet.hdf5'):
+	def __init__(self, weights='/usr/local/share/fetal_brain_assessment/weights_resnet.hdf5'):
 		logger.debug('Creating model')
 		self.model = create_model_architecture()
 		logger.debug('Model created')
@@ -69,8 +69,6 @@ class Predictor:
 		prediction = self.model.predict(volumes, verbose=1 if logger.level < 25 else 0)
 
 		logger.debug('Saving results to %s', output_file)
-		df = pd.DataFrame({
-			'filename': [basename(f) for f in input_files],
-			'quality_assessment': prediction
-		})
+		df = pd.DataFrame([basename(f) for f in input_files], columns=['filename'])
+		df['prediction'] = prediction
 		df.to_csv(output_file, index=False)

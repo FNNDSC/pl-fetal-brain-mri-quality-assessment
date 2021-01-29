@@ -1,2 +1,2 @@
-chrisapp==2.1.0
+https://github.com/jennydaman/chrisapp/tarball/search-path
 colorlog>=4.7.2
