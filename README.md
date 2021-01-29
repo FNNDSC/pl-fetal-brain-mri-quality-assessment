@@ -7,7 +7,7 @@ Score a NIFTI (`.nii`, `.nii.gz`) file on a scale from 0 to 1 based on quality u
 
 Fetal brain MRI quality is negatively affected by image noise and motion artifacts.
 
-![Figure](docs/screenshot.png)
+![Figure](docs/kiho-slide.png)
 
 ## Abstract
 
@@ -55,7 +55,13 @@ Our <code>Dockerfile</code> leverages advanced features of Docker.
 
 ![chrisstore.co](docs/chrisstore-badge.png)
 
+Below is what the plugin options look like in ChRIS_ui.
+
+![Screenshot of ChRIS_ui](docs/screenshot_chris_ui_plugin_options.png)
+
 ### Using Docker Run
+
+Run analysis directly on your machine in the command line.
 
 ```bash
 $ ls input
