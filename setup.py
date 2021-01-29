@@ -6,14 +6,14 @@ with open(path.join(path.dirname(path.abspath(__file__)), 'README.md')) as f:
 
 setup(
     name             = 'fetal_brain_quality_assessment',
-    version          = '0.1',
-    description      = 'Automatic fetal brain quality assessment tool.',
+    version          = '1.0.0',
+    description      = 'Automatic fetal brain quality assessment tool',
     long_description = readme,
     author           = 'Iván Legorreta',
     author_email     = 'ilegorreta@outlook.com',
-    url              = 'https://github.com/FNNDSC/Automatic-Fetal-Brain-Quality-Assessment-Tool',
+    url              = 'https://github.com/FNNDSC/pl-fetal-brain-mri-quality-assessment',
     packages         = ['fetal_brain_quality_assessment'],
-    install_requires = ['chrisapp'],
+    install_requires = ['chrisapp', 'colorlog'],
     license          = 'MIT',
     zip_safe         = False,
     python_requires  = '>=3.8',
