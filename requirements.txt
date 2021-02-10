@@ -1,2 +1,2 @@
-https://github.com/jennydaman/chrisapp/tarball/search-path
+chrisapp~=2.4.0
 colorlog>=4.7.2
