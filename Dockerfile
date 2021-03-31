@@ -36,4 +36,3 @@ COPY . .
 RUN ["pip", "install", "."]
 
 CMD ["fetal_brain_assessment", "--help"]
-

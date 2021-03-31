@@ -18,13 +18,13 @@ from glob import glob
 import tensorflow as tf
 from fetal_brain_assessment.predict_resnet import Predictor
 
-Gstr_title = """
+Gstr_title = r"""
  _____             _ _ _            ___                                             _   
 |  _  |           | (_) |          / _ \                                           | |  
 | | | |_   _  __ _| |_| |_ _   _  / /_\ \___ ___  ___  ___ ___ _ __ ___   ___ _ __ | |_ 
 | | | | | | |/ _` | | | __| | | | |  _  / __/ __|/ _ \/ __/ __| '_ ` _ \ / _ \ '_ \| __|
 \ \/' / |_| | (_| | | | |_| |_| | | | | \__ \__ \  __/\__ \__ \ | | | | |  __/ | | | |_ 
- \_/\_\\__,_|\__,_|_|_|\__|\__, | \_| |_/___/___/\___||___/___/_| |_| |_|\___|_| |_|\__|
+  \_/\_\__,_|\__,_|_|_|\__|\__, | \_| |_/___/___/\___||___/___/_| |_| |_|\___|_| |_|\__|
                             __/ |                                                       
                            |___/                                                        
 """
@@ -101,13 +101,19 @@ class Fetal_brain_assessment(ChrisApp):
         # legacy thing in chrisapp==2.1.0
         verbosity = int(options.verbosity)
         if verbosity > 0:
-            print(Gstr_title)
             logger.setLevel(logging.DEBUG if verbosity > 1 else logging.INFO)
+            logging.info('\n' + Gstr_title)
 
         tf.get_logger().setLevel(logging.getLevelName(logger.level))
 
-        input_files = glob(path.join(options.inputdir, options.inputPathFilter))
+        input_pattern = path.join(options.inputdir, options.inputPathFilter)
+        input_files = glob(input_pattern)
         output_file = path.join(options.outputdir, options.output_filename)
+
+        if not input_files:
+            logger.warning('No input files found in "%s"', input_pattern)
+            return
+
         Predictor().predict(input_files, output_file)
 
     def show_man_page(self):
