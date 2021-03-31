@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from os.path import basename
 import logging
 import numpy as np
 import pandas as pd
-import nibabel as nib
 from keras.losses import mean_squared_error, huber_loss
 from keras.optimizers import Adadelta, SGD, Adam
 
@@ -29,45 +27,24 @@ class Predictor:
 		self.model.load_weights(weights)
 		logger.debug('Predictor object setup complete.')
 
-	@staticmethod
-	def load_volume(filename) -> np.array:
-		"""
-		Load NIFTI volume as a numpy array. The data values are coerced into the dimensions
-		(217, 178, 60) and values are restricted to between [0, 10000].
-		"""
-		logger.debug('Loading %s', filename)
-		image = nib.load(filename)
-		data = image.get_fdata()
-		data = np.float32(data)
-		if data.shape > (217, 178, 60):
-			logger.warning('%s exceeds dimensions (217, 178, 60), skipped', filename)
-		data = np.nan_to_num(data)
-		data[data < 0] = 0
-		data[data >= 10000] = 10000
-		data = np.expand_dims(data, axis=3)
-		pad = np.zeros([217, 178, 60, 1], dtype=np.float32)
-		pad[:data.shape[0], :data.shape[1], :data.shape[2]] = data
-		return pad
-
-	def predict(self, input_files: list) -> pd.DataFrame:
-		# stack raw data
-		volumes = np.array([self.load_volume(f) for f in input_files], dtype=np.float32)
+	def predict(self, stacked_data, row_names) -> pd.DataFrame:
+		stacked_data = np.array(stacked_data, dtype=np.float32)
 
 		# Normalize dataset
-		min1 = np.amin(volumes)
+		min1 = np.amin(stacked_data)
 		# max1 = np.amax(volumes)
 		max1 = 10000
 		logger.info('Min: %s', min1)
 		logger.info('Max: %s', max1)
-		volumes = (volumes - min1) / (max1 - min1)
-		min1 = np.amin(volumes)
-		max1 = np.amax(volumes)
+		stacked_data = (stacked_data - min1) / (max1 - min1)
+		min1 = np.amin(stacked_data)
+		max1 = np.amax(stacked_data)
 		logger.info('New min: %s', min1)
 		logger.info('New max: %s', max1)
 
 		logger.debug('Doing prediction')
-		prediction = self.model.predict(volumes, verbose=1 if logger.level < 25 else 0)
+		prediction = self.model.predict(stacked_data, verbose=1 if logger.level < 25 else 0)
 
-		df = pd.DataFrame(input_files, columns=['filename'])
+		df = pd.DataFrame(row_names, columns=['filename'])
 		df['prediction'] = prediction
 		return df

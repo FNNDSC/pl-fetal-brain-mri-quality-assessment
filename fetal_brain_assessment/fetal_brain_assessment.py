@@ -14,11 +14,11 @@ from argparse import ArgumentDefaultsHelpFormatter
 import colorlog
 import logging
 import os
-import shutil
 from os import path
 from glob import glob
 import tensorflow as tf
 from fetal_brain_assessment.predict_resnet import Predictor
+from fetal_brain_assessment.volume import Volume
 
 Gstr_title = r"""
  _____             _ _ _            ___                                             _   
@@ -86,7 +86,7 @@ class Fetal_brain_assessment(ChrisApp):
             '-p', '--inputPathFilter',
             dest='inputPathFilter',
             help='selection for which files to evaluate',
-            default='*_crop.nii',
+            default='*.nii',
             type= str,
             optional=True
         )
@@ -95,6 +95,14 @@ class Fetal_brain_assessment(ChrisApp):
             dest='output_filename',
             help='name of output CSV file',
             default='predictions.csv',
+            type=str,
+            optional=True
+        )
+        self.add_argument(
+            '-c', '--crop-destination',
+            dest='crop_destination',
+            help='name of directory of where to save cropped images, before selection',
+            default='',
             type=str,
             optional=True
         )
@@ -132,24 +140,33 @@ class Fetal_brain_assessment(ChrisApp):
             logger.warning('No input files found in "%s"', input_pattern)
             return
 
-        df = Predictor().predict(input_files)
+        # load data from files and crop
+        volumes = [Volume(f) for f in input_files]
+
+        # save cropped volumes if desired
+        if options.crop_destination:
+            crop_folder = path.join(options.outputdir, options.crop_destination)
+            os.mkdir(crop_folder)
+            for volume in volumes:
+                volume.save_cropped(crop_folder)
+
+        df = Predictor().predict([v.padded_data for v in volumes], input_files)
 
         logger.debug('Saving results to %s', output_file)
         df.to_csv(output_file, index=False, header=False)
 
-        logger.debug('threshold=%f', options.threshold)
+        logger.debug('threshold=%s', str(options.threshold))
         if options.threshold > 1 or not options.destination_folder:
             return
 
         selected_dir = path.join(options.outputdir, options.destination_folder)
         os.mkdir(selected_dir)
-        for row in df.itertuples(index=False):
+        for row, volume in zip(df.itertuples(index=False), volumes):
             to_keep = row.prediction >= options.threshold
             logger.debug('%-60s  %-1.6f  %s', row.filename, row.prediction,
                          'SELECTED' if to_keep else 'REJECTED')
             if to_keep:
-                dest = path.join(selected_dir, path.basename(row.filename))
-                shutil.copyfile(row.filename, dest)
+                volume.save_cropped(selected_dir)
 
     def show_man_page(self):
         self.print_help()

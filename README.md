@@ -3,7 +3,7 @@
 ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/fnndsc/pl-fetal-brain-assessment)
 [![MIT License](https://img.shields.io/github/license/fnndsc/pl-fetal-brain-assessment)](https://github.com/fnndsc/pl-fetal-brain-assessment/blob/main/LICENSE)
 
-Score a NIFTI (`.nii`, `.nii.gz`) file on a scale from 0 to 1 based on quality using machine learning.
+Crop and then score NIFTI files (`.nii`, `.nii.gz`) on a scale from 0 to 1 based on quality using machine learning.
 
 Fetal brain MRI quality is negatively affected by image noise and motion artifacts.
 
@@ -78,7 +78,7 @@ $ mkdir output
 $ docker run --rm --gpus all -u $(id -u):$(id -g)                \
     -v /etc/localtime:/etc/localtime:ro                          \
     -v $PWD/input:/incoming:ro -v $PWD/output:/outgoing:rw       \
-    fnndsc/pl-fetal-brain-assessment:1.1.0                       \
+    fnndsc/pl-fetal-brain-assessment:1.2.0                       \
     fetal_brain_assessment --verbosity 3                         \
     --inputPathFilter '*_crop.nii' --output-file predictions.csv \
     --threshold 0.4 --destination Best_images_drop               \
@@ -101,5 +101,5 @@ scan-AX-2-3mm_crop.nii
 ### Using Singularity
 
 ```bash
-singularity exec --nv docker://fnndsc/pl-fetal-brain-assessment:1.1.0 fetal_brain_assessment in out
+singularity exec --nv docker://fnndsc/pl-fetal-brain-assessment:1.2.0 fetal_brain_assessment in out
 ```
