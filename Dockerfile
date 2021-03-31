@@ -35,4 +35,5 @@ RUN ["pip", "install", "-r", "requirements.txt"]
 COPY . .
 RUN ["pip", "install", "."]
 
-CMD ["fetal_brain_quality_assessment", "--help"]
+CMD ["fetal_brain_assessment", "--help"]
+
