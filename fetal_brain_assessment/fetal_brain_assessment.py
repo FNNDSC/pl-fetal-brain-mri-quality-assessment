@@ -13,6 +13,8 @@ from chrisapp.base import ChrisApp
 from argparse import ArgumentDefaultsHelpFormatter
 import colorlog
 import logging
+import os
+import shutil
 from os import path
 from glob import glob
 import tensorflow as tf
@@ -96,13 +98,29 @@ class Fetal_brain_assessment(ChrisApp):
             type=str,
             optional=True
         )
+        self.add_argument(
+            '-d', '--destination',
+            dest='destination_folder',
+            help='name of directory of where to save images that meet the threshold',
+            default='Best_Images_crop',
+            type=str,
+            optional=True
+        )
+        self.add_argument(
+            '-t', '--threshold',
+            dest='threshold',
+            help='Score threshold for images to keep',
+            type=float,
+            default=0.4,
+            optional=True
+        )
 
     def run(self, options):
         # legacy thing in chrisapp==2.1.0
         verbosity = int(options.verbosity)
         if verbosity > 0:
             logger.setLevel(logging.DEBUG if verbosity > 1 else logging.INFO)
-            logging.info('\n' + Gstr_title)
+            logging.debug('\n' + Gstr_title)
 
         tf.get_logger().setLevel(logging.getLevelName(logger.level))
 
@@ -114,7 +132,24 @@ class Fetal_brain_assessment(ChrisApp):
             logger.warning('No input files found in "%s"', input_pattern)
             return
 
-        Predictor().predict(input_files, output_file)
+        df = Predictor().predict(input_files)
+
+        logger.debug('Saving results to %s', output_file)
+        df.to_csv(output_file, index=False, header=False)
+
+        logger.debug('threshold=%f', options.threshold)
+        if options.threshold > 1 or not options.destination_folder:
+            return
+
+        selected_dir = path.join(options.outputdir, options.destination_folder)
+        os.mkdir(selected_dir)
+        for row in df.itertuples(index=False):
+            to_keep = row.prediction >= options.threshold
+            logger.debug('%-60s  %-1.6f  %s', row.filename, row.prediction,
+                         'SELECTED' if to_keep else 'REJECTED')
+            if to_keep:
+                dest = path.join(selected_dir, path.basename(row.filename))
+                shutil.copyfile(row.filename, dest)
 
     def show_man_page(self):
         self.print_help()

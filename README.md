@@ -75,11 +75,13 @@ scan-SAG-3-3mm_crop.nii
 
 $ mkdir output
 
-$ docker run --rm --gpus all -u $(id -u)                         \
+$ docker run --rm --gpus all -u $(id -u):$(id -g)                \
+    -v /etc/localtime:/etc/localtime:ro                          \
     -v $PWD/input:/incoming:ro -v $PWD/output:/outgoing:rw       \
-    fnndsc/pl-fetal-brain-assessment:1.0.0                       \
+    fnndsc/pl-fetal-brain-assessment:1.1.0                       \
     fetal_brain_assessment --verbosity 3                         \
     --inputPathFilter '*_crop.nii' --output-file predictions.csv \
+    --threshold 0.4 --destination Best_images_drop               \
     /incoming /outgoing
 
 $ cat output/predictions.csv
@@ -90,4 +92,14 @@ scan-SAG-2-5mm_crop.nii,0.26366436
 scan-SAG-3-3mm_crop.nii,0.32725734
 scan-AX-2-3mm_crop.nii,0.45316696
 scan-COR-2-3mm_crop.nii,0.32879326
+
+$ ls output/Best_images_drop
+scan-COR-1-3mm_crop.nii
+scan-AX-2-3mm_crop.nii
+```
+
+### Using Singularity
+
+```bash
+singularity exec --nv docker://fnndsc/pl-fetal-brain-assessment:1.1.0 fetal_brain_assessment in out
 ```

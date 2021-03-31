@@ -6,7 +6,7 @@ with open(path.join(path.dirname(path.abspath(__file__)), 'README.md')) as f:
 
 setup(
     name             = 'fetal_brain_assessment',
-    version          = '1.0.2',
+    version          = '1.1.0',
     description      = 'Automatic fetal brain quality assessment tool',
     long_description = readme,
     author           = 'Iván Legorreta',

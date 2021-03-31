@@ -49,7 +49,7 @@ class Predictor:
 		pad[:data.shape[0], :data.shape[1], :data.shape[2]] = data
 		return pad
 
-	def predict(self, input_files: list, output_file='prediction.csv'):
+	def predict(self, input_files: list) -> pd.DataFrame:
 		# stack raw data
 		volumes = np.array([self.load_volume(f) for f in input_files], dtype=np.float32)
 
@@ -68,7 +68,6 @@ class Predictor:
 		logger.debug('Doing prediction')
 		prediction = self.model.predict(volumes, verbose=1 if logger.level < 25 else 0)
 
-		logger.debug('Saving results to %s', output_file)
-		df = pd.DataFrame([basename(f) for f in input_files], columns=['filename'])
+		df = pd.DataFrame(input_files, columns=['filename'])
 		df['prediction'] = prediction
-		df.to_csv(output_file, index=False)
+		return df
