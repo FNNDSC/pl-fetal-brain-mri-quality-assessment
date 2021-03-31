@@ -50,7 +50,8 @@ class Fetal_brain_assessment(ChrisApp):
     Developed using Python3 and Keras/Tensorflow framework.
     """
     PACKAGE                 = __package__
-    CATEGORY                = ''
+    TITLE                   = 'Fetal Brain Quality Assessment'
+    CATEGORY                = 'Statistical Operation'
     TYPE                    = 'ds'
     ICON                    = '' # url of an icon image
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
