@@ -53,7 +53,7 @@ Our <code>Dockerfile</code> leverages advanced features of Docker.
 
 `fetal-brain-assessment` is a [ChRIS](https://chrisproject.org/) plugin.
 
-![chrisstore.co](docs/chrisstore-badge.png)
+[![chrisstore.co](docs/chrisstore-badge.png)](https://chrisstore.co/plugin/72)
 
 Below is what the plugin options look like in ChRIS_ui.
 
