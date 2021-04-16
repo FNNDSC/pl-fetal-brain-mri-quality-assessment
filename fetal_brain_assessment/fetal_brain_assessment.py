@@ -86,7 +86,7 @@ class Fetal_brain_assessment(ChrisApp):
         self.add_argument(
             '-p', '--inputPathFilter',
             dest='inputPathFilter',
-            help='selection for which files to evaluate',
+            help='Selection for which files to evaluate.',
             default='*.nii',
             type=str,
             optional=True
@@ -94,15 +94,15 @@ class Fetal_brain_assessment(ChrisApp):
         self.add_argument(
             '-o', '--output-file',
             dest='output_filename',
-            help='name of output CSV file',
-            default='predictions.csv',
+            help='Name of output CSV file.',
+            default='quality_assessment.csv',
             type=str,
             optional=True
         )
         self.add_argument(
             '-c', '--crop-destination',
             dest='crop_destination',
-            help='name of directory of where to save cropped images, before selection',
+            help='Name of directory of where to save cropped images, before selection.',
             default='',
             type=str,
             optional=True
@@ -110,7 +110,7 @@ class Fetal_brain_assessment(ChrisApp):
         self.add_argument(
             '-d', '--destination',
             dest='destination_folder',
-            help='name of directory of where to save images that meet the threshold',
+            help='Name of directory of where to save images that meet the threshold.',
             default='Best_Images_crop',
             type=str,
             optional=True
@@ -118,7 +118,7 @@ class Fetal_brain_assessment(ChrisApp):
         self.add_argument(
             '-t', '--threshold',
             dest='threshold',
-            help='Score threshold for images to keep',
+            help='Score threshold for images to keep.',
             type=float,
             default=0.4,
             optional=True
