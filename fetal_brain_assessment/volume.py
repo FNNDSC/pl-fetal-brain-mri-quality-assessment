@@ -21,7 +21,7 @@ class Volume:
         self.image = nib.load(self.filename)
         data = self.image.get_fdata()
 
-        self.slice_thickness = self.image.header.get_zooms()[self.image.header.get_dim_info()[2]]
+        self.slice_thickness = self.image.header.get_zooms()[2]
 
         # Detect the bounding box of the foreground
         idx = np.nonzero(data > 0)

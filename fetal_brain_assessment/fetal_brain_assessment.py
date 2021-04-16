@@ -156,7 +156,7 @@ class Fetal_brain_assessment(ChrisApp):
         df['slice_thickness'] = [v.slice_thickness for v in volumes]
 
         logger.debug('Saving results to %s', output_file)
-        df.to_csv(output_file, index=False, header=False)
+        df.to_csv(output_file, index=False, header=True)
 
         logger.debug('threshold=%s', str(options.threshold))
         if options.threshold > 1 or not options.destination_folder:
@@ -165,8 +165,8 @@ class Fetal_brain_assessment(ChrisApp):
         selected_dir = path.join(options.outputdir, options.destination_folder)
         os.mkdir(selected_dir)
         for row, volume in zip(df.itertuples(index=False), volumes):
-            to_keep = row.prediction >= options.threshold
-            logger.debug('%-60s  %-1.6f  %s', row.filename, row.prediction,
+            to_keep = row.quality >= options.threshold
+            logger.debug('%-60s  %-1.6f  %s', row.filename, row.quality,
                          'SELECTED' if to_keep else 'REJECTED')
             if to_keep:
                 volume.save_cropped(selected_dir)
