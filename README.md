@@ -1,6 +1,6 @@
 # Automatic Fetal Brain MRI Quality Assessment
 
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/fnndsc/pl-fetal-brain-assessment)
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/fnndsc/pl-fetal-brain-assessment)](https://hub.docker.com/r/fnndsc/pl-fetal-brain-assessment/tags?page=1&ordering=last_updated)
 [![MIT License](https://img.shields.io/github/license/fnndsc/pl-fetal-brain-assessment)](https://github.com/fnndsc/pl-fetal-brain-assessment/blob/main/LICENSE)
 
 Crop and then score NIFTI files (`.nii`, `.nii.gz`) on a scale from 0 to 1 based on quality using machine learning.
