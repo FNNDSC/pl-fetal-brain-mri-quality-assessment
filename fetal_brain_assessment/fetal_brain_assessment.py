@@ -88,7 +88,7 @@ class Fetal_brain_assessment(ChrisApp):
             dest='inputPathFilter',
             help='selection for which files to evaluate',
             default='*.nii',
-            type= str,
+            type=str,
             optional=True
         )
         self.add_argument(
@@ -152,6 +152,8 @@ class Fetal_brain_assessment(ChrisApp):
                 volume.save_cropped(crop_folder)
 
         df = Predictor().predict([v.padded_data for v in volumes], input_files)
+
+        df['slice_thickness'] = [v.slice_thickness for v in volumes]
 
         logger.debug('Saving results to %s', output_file)
         df.to_csv(output_file, index=False, header=False)

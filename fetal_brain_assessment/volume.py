@@ -21,6 +21,8 @@ class Volume:
         self.image = nib.load(self.filename)
         data = self.image.get_fdata()
 
+        self.slice_thickness = self.image.header.get_zooms()[self.image.header.get_dim_info()[2]]
+
         # Detect the bounding box of the foreground
         idx = np.nonzero(data > 0)
         x1, x2 = idx[0].min(), idx[0].max()
@@ -50,7 +52,7 @@ class Volume:
 
         self.padded_data = pad
 
-    def save_cropped(self, folder: str, name_suffix='_crop'):
+    def save_cropped(self, folder: str, name_suffix='_crop') -> str:
         dest = path.basename(self.filename)
         if name_suffix:
             nii = dest.index('.nii')
@@ -59,3 +61,4 @@ class Volume:
 
         nim2 = self.image.__class__(self.cropped_data, self._cropped_affine, header=self.image.header)
         nib.save(nim2, dest)
+        return dest

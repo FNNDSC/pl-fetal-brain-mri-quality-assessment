@@ -46,5 +46,5 @@ class Predictor:
 		prediction = self.model.predict(stacked_data, verbose=1 if logger.level < 25 else 0)
 
 		df = pd.DataFrame(row_names, columns=['filename'])
-		df['prediction'] = prediction
+		df['quality'] = prediction
 		return df
