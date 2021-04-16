@@ -52,11 +52,11 @@ class Volume:
 
         self.padded_data = pad
 
-    def save_cropped(self, folder: str, name_suffix='_crop') -> str:
+    def save_cropped(self, folder: str, name_suffix='') -> str:
         dest = path.basename(self.filename)
         if name_suffix:
             nii = dest.index('.nii')
-            dest = dest[:nii] + '_crop' + dest[nii:]
+            dest = dest[:nii] + name_suffix + dest[nii:]
         dest = path.join(folder, dest)
 
         nim2 = self.image.__class__(self.cropped_data, self._cropped_affine, header=self.image.header)
