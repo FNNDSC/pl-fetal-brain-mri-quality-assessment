@@ -23,9 +23,8 @@ COPY conda_environment.yml .
 RUN conda env update -n base -f conda_environment.yml
 
 # if you want to choose weights from a different fold, specify here.
-# list of options at
-# https://fnndsc.childrens.harvard.edu/mri_pipeline/ivan/quality_assessment/
-ADD https://fnndsc.childrens.harvard.edu/mri_pipeline/ivan/quality_assessment/weights_resnet_sw2_k3.hdf5 \
+# list of options at https://zenodo.org/record/8309634
+ADD https://zenodo.org/record/8309634/files/weights_resnet_sw2_k3.hdf5?download=1 \
     /usr/local/share/fetal_brain_assessment/weights_resnet.hdf5
 RUN ["chmod", "444", "/usr/local/share/fetal_brain_assessment/weights_resnet.hdf5"]
 
